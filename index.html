@@ -292,58 +292,46 @@
         });
 
         let countdown = 50; // Thời gian đợi là 50 giây
-let gltSupply = 7000000000; // Ban đầu là 7 tỷ GLT
-const gtrRate = 0.75; // Nguồn cung tăng mỗi giây
+        let gltSupply = 7000000000; // Ban đầu là 7 tỷ GLT
+        const gtrRate = 0.75; // Nguồn cung tăng mỗi giây
 
-// Hàm cập nhật biểu đồ và giá GLT
-function updateChartAndPrice() {
-    if (countdown > 0) {
-        countdown--;
-        document.getElementById('countdown').innerText = countdown + "s còn lại";
-        
-        // Cập nhật cung GLT
-        gltSupply += gtrRate;
-        document.getElementById('gltSupply').innerText = "Cung GLT: " + gltSupply.toFixed(2);
+        // Hàm cập nhật biểu đồ và giá GLT
+        function updateChartAndPrice() {
+            if (countdown > 0) {
+                countdown--;
+                document.querySelector('.info-box p').innerText = countdown + "s còn lại";
+                
+                // Cập nhật cung GLT
+                gltSupply += gtrRate;
+                document.getElementById('gltSupply').innerText = gltSupply.toFixed(2) + " GLT";
 
-        // Tính toán giá GLT (giá GLT tăng khi cung giảm, ví dụ)
-        const basePrice = 2350; // Giá cơ bản là 2,350 VND
-        const currentPrice = basePrice * (7000000000 / gltSupply); // Giá thay đổi theo cung
-        document.getElementById('gltPrice').innerText = "Giá GLT: " + currentPrice.toFixed(2) + " VND";
-    } else {
-        clearInterval(intervalId); // Ngừng cập nhật khi hết 50 giây
-        alert("Đã hết thời gian dự đoán!");
-    }
-}
+                // Cập nhật giá GLT (ví dụ tính toán từ nguồn cung GLT)
+                const newPrice = (2350 * (7000000000 / gltSupply)).toFixed(2);
+                priceChart.data.datasets[0].data.shift();
+                priceChart.data.datasets[0].data.push(newPrice);
+                priceChart.update();
+                document.getElementById('currentPrice').innerText = newPrice + " VND";
+            } else {
+                countdown = 50; // Reset đếm ngược
+                document.querySelector('.info-box p').innerText = "Dự đoán đã kết thúc.";
+            }
+        }
 
-// Cập nhật mỗi 1 giây thay vì 5 giây
-const intervalId = setInterval(updateChartAndPrice, 1000); // Cập nhật mỗi 1000ms (1 giây)
+        setInterval(updateChartAndPrice, 1000); // Cập nhật mỗi giây
 
+        // Các sự kiện khi nhấn nút dự đoán
+        document.getElementById('predictUp').addEventListener('click', function() {
+            alert("Bạn đã dự đoán giá sẽ tăng!");
+        });
 
-        document.getElementById('predictUp').addEventListener('click', () => {
-    const amount = parseFloat(document.getElementById('amount').value);
-    if (amount <= 0) {
-        alert('Số tiền phải lớn hơn 0!');
-        return; // Ngừng nếu số tiền không hợp lệ
-    }
-    alert('Bạn đã dự đoán giá GLT sẽ tăng với số tiền: ' + amount + ' GLT!');
-});
+        document.getElementById('predictDown').addEventListener('click', function() {
+            alert("Bạn đã dự đoán giá sẽ giảm!");
+        });
 
-document.getElementById('predictDown').addEventListener('click', () => {
-    const amount = parseFloat(document.getElementById('amount').value);
-    if (amount <= 0) {
-        alert('Số tiền phải lớn hơn 0!');
-        return; // Ngừng nếu số tiền không hợp lệ
-    }
-    alert('Bạn đã dự đoán giá GLT sẽ giảm với số tiền: ' + amount + ' GLT!');
-});
-
-
-        // Xử lý sự kiện xem quảng cáo
-        document.getElementById('watchAd').addEventListener('click', () => {
-            alert('Bạn đã xem quảng cáo và nhận 3 GLT!');
-            currentSupply += 3; // Thêm 3 GLT khi xem quảng cáo
+        // Sự kiện xem quảng cáo
+        document.getElementById('watchAd').addEventListener('click', function() {
+            alert("Bạn đã xem quảng cáo và nhận được 3 GLT!");
         });
     </script>
-
 </body>
 </html>
