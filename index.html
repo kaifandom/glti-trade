@@ -6,7 +6,7 @@
     <title>GLTi-Trade - Giao Dịch GLT</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <style>
+     <style>
         * {
             box-sizing: border-box;
             margin: 0;
@@ -247,7 +247,7 @@
                 labels: Array.from({ length: 50 }, (_, i) => i + 1 + "s"),
                 datasets: [{
                     label: 'Giá GLT (VND)',
-                    data: Array.from({ length: 50 }, () => Math.random() * 1000 + 2000),
+                    data: Array.from({ length: 50 }, () => 2350),
                     borderColor: '#00ff6a',
                     backgroundColor: 'rgba(0, 255, 106, 0.1)',
                     fill: true,
@@ -299,7 +299,7 @@
 
         function updateSupplyAndPrice() {
             // Mỗi giây cung tăng 0.75 GLT
-            currentSupply += 0.75;
+            currentSupply -= 0.75;  // Giảm nguồn cung thay vì tăng
 
             // Tính giá GLT mới dựa trên nguồn cung
             currentPrice = initialPrice * (initialSupply / currentSupply);
@@ -329,6 +329,7 @@
         // Xử lý sự kiện xem quảng cáo
         document.getElementById('watchAd').addEventListener('click', () => {
             alert('Bạn đã xem quảng cáo và nhận 3 GLT!');
+            currentSupply += 3; // Thêm 3 GLT khi xem quảng cáo
         });
     </script>
 
