@@ -317,14 +317,24 @@
         // Cập nhật mỗi 5 giây
         setInterval(updateSupplyAndPrice, 5000);
 
-        // Xử lý sự kiện nút dự đoán
         document.getElementById('predictUp').addEventListener('click', () => {
-            alert('Bạn đã dự đoán giá GLT sẽ tăng!');
-        });
+    const amount = parseFloat(document.getElementById('amount').value);
+    if (amount <= 0) {
+        alert('Số tiền phải lớn hơn 0!');
+        return; // Ngừng nếu số tiền không hợp lệ
+    }
+    alert('Bạn đã dự đoán giá GLT sẽ tăng với số tiền: ' + amount + ' GLT!');
+});
 
-        document.getElementById('predictDown').addEventListener('click', () => {
-            alert('Bạn đã dự đoán giá GLT sẽ giảm!');
-        });
+document.getElementById('predictDown').addEventListener('click', () => {
+    const amount = parseFloat(document.getElementById('amount').value);
+    if (amount <= 0) {
+        alert('Số tiền phải lớn hơn 0!');
+        return; // Ngừng nếu số tiền không hợp lệ
+    }
+    alert('Bạn đã dự đoán giá GLT sẽ giảm với số tiền: ' + amount + ' GLT!');
+});
+
 
         // Xử lý sự kiện xem quảng cáo
         document.getElementById('watchAd').addEventListener('click', () => {
