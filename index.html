@@ -291,31 +291,33 @@
             }
         });
 
-        // Cập nhật giá GLT và nguồn cung GLT mỗi 5 giây
-        let initialSupply = 7000000000; // Nguồn cung ban đầu
-        let currentSupply = initialSupply; // Nguồn cung hiện tại
-        let initialPrice = 2350;           // Giá ban đầu
-        let currentPrice = initialPrice;   // Giá hiện tại
+        let countdown = 50; // Thời gian đợi là 50 giây
+let gltSupply = 7000000000; // Ban đầu là 7 tỷ GLT
+const gtrRate = 0.75; // Nguồn cung tăng mỗi giây
 
-        function updateSupplyAndPrice() {
-            // Nguồn cung tăng 0.75 GLT mỗi giây
-            currentSupply += 0.75;
+// Hàm cập nhật biểu đồ và giá GLT
+function updateChartAndPrice() {
+    if (countdown > 0) {
+        countdown--;
+        document.getElementById('countdown').innerText = countdown + "s còn lại";
+        
+        // Cập nhật cung GLT
+        gltSupply += gtrRate;
+        document.getElementById('gltSupply').innerText = "Cung GLT: " + gltSupply.toFixed(2);
 
-            // Tính giá GLT mới dựa trên nguồn cung
-            currentPrice = initialPrice * (initialSupply / currentSupply);
+        // Tính toán giá GLT (giá GLT tăng khi cung giảm, ví dụ)
+        const basePrice = 2350; // Giá cơ bản là 2,350 VND
+        const currentPrice = basePrice * (7000000000 / gltSupply); // Giá thay đổi theo cung
+        document.getElementById('gltPrice').innerText = "Giá GLT: " + currentPrice.toFixed(2) + " VND";
+    } else {
+        clearInterval(intervalId); // Ngừng cập nhật khi hết 50 giây
+        alert("Đã hết thời gian dự đoán!");
+    }
+}
 
-            // Cập nhật giá GLT và nguồn cung trên giao diện
-            document.getElementById('gltSupply').textContent = currentSupply.toLocaleString() + ' GLT';
-            document.getElementById('currentPrice').textContent = currentPrice.toFixed(2) + ' VND';
+// Cập nhật mỗi 1 giây thay vì 5 giây
+const intervalId = setInterval(updateChartAndPrice, 1000); // Cập nhật mỗi 1000ms (1 giây)
 
-            // Cập nhật biểu đồ giá
-            priceChart.data.datasets[0].data.shift();
-            priceChart.data.datasets[0].data.push(currentPrice);
-            priceChart.update();
-        }
-
-        // Cập nhật mỗi 5 giây
-        setInterval(updateSupplyAndPrice, 5000);
 
         document.getElementById('predictUp').addEventListener('click', () => {
     const amount = parseFloat(document.getElementById('amount').value);
