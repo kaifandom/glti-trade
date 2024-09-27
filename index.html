@@ -6,7 +6,7 @@
     <title>GLTi-Trade - Giao Dịch GLT</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-     <style>
+    <style>
         * {
             box-sizing: border-box;
             margin: 0;
@@ -298,8 +298,8 @@
         let currentPrice = initialPrice;   // Giá hiện tại
 
         function updateSupplyAndPrice() {
-            // Mỗi giây cung tăng 0.75 GLT
-            currentSupply += 1;  // Giảm nguồn cung thay vì tăng
+            // Nguồn cung tăng 0.75 GLT mỗi giây
+            currentSupply += 0.75;
 
             // Tính giá GLT mới dựa trên nguồn cung
             currentPrice = initialPrice * (initialSupply / currentSupply);
