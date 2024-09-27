@@ -292,72 +292,41 @@
         });
 
         // Cập nhật giá GLT và nguồn cung GLT mỗi 5 giây
-let currentSupply = 7000000000; // Nguồn cung ban đầu
-let currentPrice = 2350;        // Giá ban đầu
+        let currentSupply = 7000000000; // Nguồn cung ban đầu
+        let currentPrice = 2350;        // Giá ban đầu
 
-function updateSupplyAndPrice() {
-    // Nguồn cung tăng 1 GLT mỗi 5 giây
-    currentSupply += 1;
+        function updateSupplyAndPrice() {
+            // Nguồn cung tăng 1 GLT mỗi 5 giây
+            currentSupply += 1;
 
-    // Giá GLT giảm khi nguồn cung tăng
-    currentPrice = (7000000000 / currentSupply) * 2350;
+            // Giá GLT giảm khi nguồn cung tăng
+            currentPrice = (7000000000 / currentSupply) * 2350;
 
-    // Cập nhật hiển thị nguồn cung và giá
-    document.getElementById('gltSupply').textContent = currentSupply.toFixed(2) + ' GLT';
-    document.getElementById('currentPrice').textContent = currentPrice.toFixed(2) + ' VND';
+            // Cập nhật hiển thị nguồn cung và giá
+            document.getElementById('gltSupply').textContent = currentSupply.toFixed(2) + ' GLT';
+            document.getElementById('currentPrice').textContent = currentPrice.toFixed(2) + ' VND';
 
-    // Cập nhật biểu đồ giá GLT
-    if (priceChart.data.datasets[0].data.length >= 50) {
-        // Xóa điểm cũ nhất khi đạt 50 điểm
-        priceChart.data.datasets[0].data.shift();
-        priceChart.data.labels.shift();
-    }
+            // Cập nhật biểu đồ giá
+            priceChart.data.datasets[0].data.shift();
+            priceChart.data.datasets[0].data.push(currentPrice);
+            priceChart.update();
+        }
 
-    // Thêm giá mới và nhãn mới (5 giây mỗi điểm)
-    priceChart.data.datasets[0].data.push(currentPrice);
-    priceChart.data.labels.push(priceChart.data.labels.length * 5 + "s"); // 5 giây cho mỗi nhãn
+        // Cập nhật mỗi 5 giây
+        setInterval(updateSupplyAndPrice, 5000);
 
-    // Cập nhật biểu đồ
-    priceChart.update();
-}
-
-// Cập nhật mỗi 5 giây
-setInterval(updateSupplyAndPrice, 5000);
-
-
-
-        // Xử lý dự đoán tăng hoặc giảm
+        // Xử lý sự kiện nút dự đoán
         document.getElementById('predictUp').addEventListener('click', () => {
-            handlePrediction('up');
+            alert('Bạn đã dự đoán giá GLT sẽ tăng!');
         });
 
         document.getElementById('predictDown').addEventListener('click', () => {
-            handlePrediction('down');
+            alert('Bạn đã dự đoán giá GLT sẽ giảm!');
         });
 
-        function handlePrediction(prediction) {
-            const amount = parseFloat(document.getElementById('amount').value);
-            if (!amount || amount <= 0) {
-                alert('Vui lòng nhập số tiền hợp lệ!');
-                return;
-            }
-
-            setTimeout(() => {
-                const result = Math.random() < 0.5 ? 'up' : 'down';
-                if (result === prediction) {
-                    const reward = amount * 0.7;
-                    alert('Dự đoán đúng! Bạn nhận được ' + reward.toFixed(2) + ' GLT');
-                } else {
-                    alert('Dự đoán sai. Thử lại lần nữa!');
-                }
-            }, 50000); // 50 giây để hiển thị kết quả
-        }
-
-        // Xem quảng cáo để nhận 3 GLT
+        // Xử lý sự kiện xem quảng cáo
         document.getElementById('watchAd').addEventListener('click', () => {
-            alert('Bạn đã xem quảng cáo và nhận được 3 GLT');
-            currentSupply -= 3;
-            document.getElementById('gltSupply').textContent = currentSupply.toFixed(2) + ' GLT';
+            alert('Bạn đã xem quảng cáo và nhận 3 GLT!');
         });
     </script>
 
