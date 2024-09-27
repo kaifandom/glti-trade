@@ -299,7 +299,7 @@
 
         function updateSupplyAndPrice() {
             // Mỗi giây cung tăng 0.75 GLT
-            currentSupply -= 0.75;  // Giảm nguồn cung thay vì tăng
+            currentSupply -= 1;  // Giảm nguồn cung thay vì tăng
 
             // Tính giá GLT mới dựa trên nguồn cung
             currentPrice = initialPrice * (initialSupply / currentSupply);
