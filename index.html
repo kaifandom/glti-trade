@@ -292,18 +292,20 @@
         });
 
         // Cập nhật giá GLT và nguồn cung GLT mỗi 5 giây
-        let currentSupply = 7000000000; // Nguồn cung ban đầu
-        let currentPrice = 2350;        // Giá ban đầu
+        let initialSupply = 7000000000; // Nguồn cung ban đầu
+        let currentSupply = initialSupply; // Nguồn cung hiện tại
+        let initialPrice = 2350;           // Giá ban đầu
+        let currentPrice = initialPrice;   // Giá hiện tại
 
         function updateSupplyAndPrice() {
-            // Nguồn cung tăng 1 GLT mỗi 5 giây
-            currentSupply += 1;
+            // Mỗi giây cung tăng 0.75 GLT
+            currentSupply += 0.75;
 
-            // Giá GLT giảm khi nguồn cung tăng
-            currentPrice = (7000000000 / currentSupply) * 2350;
+            // Tính giá GLT mới dựa trên nguồn cung
+            currentPrice = initialPrice * (initialSupply / currentSupply);
 
-            // Cập nhật hiển thị nguồn cung và giá
-            document.getElementById('gltSupply').textContent = currentSupply.toFixed(2) + ' GLT';
+            // Cập nhật giá GLT và nguồn cung trên giao diện
+            document.getElementById('gltSupply').textContent = currentSupply.toLocaleString() + ' GLT';
             document.getElementById('currentPrice').textContent = currentPrice.toFixed(2) + ' VND';
 
             // Cập nhật biểu đồ giá
